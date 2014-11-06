@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">uRate Demo</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_category_list">uRate Category List</string>
+    <string name="title_activity_place_list">uRate Place List</string>
+    <string name="title_activity_place_detail">uRate Place Detail</string>
+
+
+    <string-array name="category_array">
+        <item>Restaurants</item>
+        <item>Bars</item>
+        <item>Girls</item>
+        <item>Resorts</item>
+        <item>Parks</item>
+        <item>Stores</item>
+        <item>Sites</item>
+    </string-array>
+
+    <string-array name="place_array">
+        <item>Beekmans</item>
+        <item>Chipotle</item>
+        <item>GRK</item>
+        <item>Melt Shop</item>
+        <item>Subway</item>
+        <item>Red Mango</item>
+    </string-array>
+
+</resources>

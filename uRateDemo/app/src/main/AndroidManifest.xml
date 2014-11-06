@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="everton.uratedemo" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="everton.uratedemo.CategoryList"
+            android:label="@string/title_activity_category_list" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="everton.uratedemo.PlaceDetail"
+            android:label="@string/title_activity_place_detail" >
+            <intent-filter>
+                <action android:name="everton.uratedemo.PLACE_DETAIL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="everton.uratedemo.PlaceList"
+            android:label="@string/title_activity_place_list" >
+            <intent-filter>
+                <action android:name="everton.uratedemo.PLACE_LIST"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
