@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 
@@ -21,8 +22,8 @@ public class CategoryList extends Activity {
         setContentView(R.layout.activity_category_list);
 
         String[] categoryArray = getResources().getStringArray(R.array.category_array);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, categoryArray);
+
+        ListAdapter adapter = new CategoryAdapter(this, categoryArray);
         ListView listView = (ListView) findViewById(R.id.list_category);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -52,7 +53,7 @@ public class CategoryList extends Activity {
         return true;
     }
 
-    @Override wor
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long

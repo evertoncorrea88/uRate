@@ -19,12 +19,12 @@
     </string-array>
 
     <string-array name="place_array">
-        <item>Beekmans</item>
-        <item>Chipotle</item>
-        <item>GRK</item>
-        <item>Melt Shop</item>
-        <item>Subway</item>
-        <item>Red Mango</item>
+        <item>Beekmans,2.0</item>
+        <item>Chipotle,3.0</item>
+        <item>GRK,1.0</item>
+        <item>Melt Shop,1.0</item>
+        <item>Subway,2.0</item>
+        <item>Red Mango,3.0</item>
     </string-array>
 
 </resources>

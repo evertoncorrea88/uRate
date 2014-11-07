@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 
@@ -20,8 +21,8 @@ public class PlaceList extends Activity {
         setContentView(R.layout.activity_place_list);
 
         String[] placeArray = getResources().getStringArray(R.array.place_array);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, placeArray);
+
+        ListAdapter adapter = new PlaceAdapter(this, placeArray);
         ListView listView = (ListView) findViewById(R.id.list_place);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
