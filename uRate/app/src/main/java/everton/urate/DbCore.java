@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DbCore extends SQLiteOpenHelper {
     private static final String DB_NAME = "uRateDB";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 10;
 
 
     public DbCore(Context ctx){

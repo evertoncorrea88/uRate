@@ -16,8 +16,7 @@ import java.util.List;
 
 
 public class ListActivity extends Activity {
-    private List<String> listGroup;
-    private HashMap<String, List<Item>> listItem;
+    private MyApplication myApp;
     private DbAccess dbAccess;
 
     @Override
@@ -25,17 +24,9 @@ public class ListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        myApp = (MyApplication) getApplication();
         dbAccess = new DbAccess(this);
 //        createDummy();
-
-//        BD bd = new BD(this);
-//        List<Usuario> list = bd.buscar();
-//        setListAdapter(new UsuarioAdapter(this, list));
-
-//        BD bd = new BD(this);
-//        bd.atualizar(usuario);
-
-
     }
 
     @Override
@@ -44,7 +35,7 @@ public class ListActivity extends Activity {
 
         buildLists();
         ExpandableListView elv = (ExpandableListView) findViewById(R.id.elv);
-        MyExpandableAdapter myExpandableAdapter = new MyExpandableAdapter(ListActivity.this, listGroup, listItem);
+        MyExpandableAdapter myExpandableAdapter = new MyExpandableAdapter(ListActivity.this, myApp.listGroup, myApp.listItem);
         elv.setAdapter(myExpandableAdapter);
 
         elv.setGroupIndicator(getResources().getDrawable(R.drawable.icon_group_indicator));
@@ -53,16 +44,17 @@ public class ListActivity extends Activity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent("everton.urate.ITEM_DETAIL");
-                intent.putExtra("editMode", false);
+                intent.putExtra("isEditMode", false);
+                intent.putExtra("groupPosition", groupPosition);
+                intent.putExtra("childPosition", childPosition);
                 startActivity(intent);
-
                 return false;
             }
         });
 
         FloatingActionButton btnNewItem = new FloatingActionButton.Builder(this)
-                .withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
-                .withButtonColor(Color.parseColor("#F50057"))
+                .withDrawable(getResources().getDrawable(R.drawable.ic_action_new2))
+                .withButtonColor(Color.parseColor("#BDBDBD"))
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)
                 .create();
@@ -71,32 +63,36 @@ public class ListActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent("everton.urate.ITEM_DETAIL");
-                intent.putExtra("editMode", true);
+                intent.putExtra("isEditMode", true);
                 startActivity(intent);
             }
         });
     }
 
     private void buildLists(){
-        listGroup = new ArrayList<String>();
-        listItem = new HashMap<String, List<Item>>();
+        myApp.listGroup = new ArrayList<String>();
+        myApp.listItem = new HashMap<String, List<Item>>();
 
         List<Item> auxListItem = dbAccess.retrieveItems();
         for (int i = 0; i < auxListItem.size(); i++){
             Item item = auxListItem.get(i);
-            if (listGroup.contains(item.getCategory())){
-                listItem.get(item.getCategory()).add(item);
+            if (myApp.listGroup.contains(item.getCategory())){
+                myApp.listItem.get(item.getCategory()).add(item);
             }else {
-                listGroup.add(item.getCategory());
+                myApp.listGroup.add(item.getCategory());
                 List<Item> newList = new ArrayList<Item>();
                 newList.add(item);
-                listItem.put(item.getCategory(), newList);
+                myApp.listItem.put(item.getCategory(), newList);
             }
         }
     }
 
     private void createDummy(){
         Item item = new Item();
+
+        item.setNotes("Test");
+        item.setRate(2.5f);
+        item.setAddress("Fulton Street");
 
         item.setCategory("FastFood");
         item.setName("Subway");

@@ -13,23 +13,25 @@
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_urate"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/item_image_placeholder"
+        android:contentDescription="@string/item_image_description"/>
 
     <TextView
-        android:id="@+id/tv_item_txt"
+        android:id="@+id/tv_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:layout_marginLeft="0dp"
         android:textColor="#757575"/>
 
     <RatingBar
-        android:id="@+id/rb_place"
+        android:id="@+id/rb_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:numStars="3"/>
 
 </LinearLayout>

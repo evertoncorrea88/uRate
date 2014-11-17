@@ -9,96 +9,153 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="everton.urate.ItemDetailActivity">
 
-
     <ImageView
-        android:id="@+id/iv_item_detail"
+        android:id="@+id/iv_item_img"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:scaleType="centerCrop"
-        android:background="@android:color/darker_gray"/>
+        android:src="@drawable/item_image_placeholder"
+        android:contentDescription="@string/item_image_description"/>
 
-    <EditText
-        android:id="@+id/et_name_item"
-        android:inputType="text"
+    <RatingBar
+        android:id="@+id/rb_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_item_img"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:numStars="3"/>
+
+    <LinearLayout
+        android:id="@+id/name_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_rate"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/iv_item_detail"
-        android:hint="@string/text_name"/>
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_name"
+            android:contentDescription="@string/icon_name_description"/>
+        <EditText
+            android:id="@+id/et_name_item"
+            android:inputType="text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/text_name"/>
+    </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spin_category"
+    <LinearLayout
+        android:id="@+id/category_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/name_line"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/et_name_item"
-        android:theme="@android:style/Theme.Holo.Light"/>
-        <!--android:entries="@array/category_array"-->
-
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_category"
+            android:contentDescription="@string/icon_category_description"/>
+        <Spinner
+            android:id="@+id/spin_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:theme="@android:style/Theme.Holo.Light"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/address_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/category_line"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/spin_category"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_address"
+            android:contentDescription="@string/icon_address_description"/>
         <EditText
             android:id="@+id/et_address"
             android:inputType="text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/text_address"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:hint="@string/text_address"/>
         <ImageButton
             android:id="@+id/ib_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_geo_fence"
             android:background="@android:color/transparent"
-            android:layout_weight="0"/>
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/icon_map_description"/>
     </LinearLayout>
 
-    <RatingBar
-        android:id="@+id/rb_rate"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/notes_line"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/address_line"
         android:layout_alignParentLeft="true"
-        android:numStars="3"/>
-
-    <EditText
-        android:id="@+id/et_notes"
-        android:inputType="textMultiLine"
-        android:lines="4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rb_rate"
-        android:layout_alignParentLeft="true"
-        android:hint="@string/text_notes"/>
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_notes"
+            android:contentDescription="@string/icon_notes_description"/>
+        <EditText
+            android:id="@+id/et_notes"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/text_notes"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_save"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/button_save"
+        android:drawableLeft="@drawable/ic_action_save"
+        android:drawableStart="@drawable/ic_action_save"/>
 
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_cancel"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btn_save"/>
+        android:layout_toLeftOf="@+id/btn_save"
+        android:layout_toStartOf="@+id/btn_save"
+        android:text="@string/button_cancel"
+        android:drawableLeft="@drawable/ic_action_cancel"
+        android:drawableStart="@drawable/ic_action_cancel"/>
 
     <Button
         android:id="@+id/btn_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_edit"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/button_edit"
+        android:drawableLeft="@drawable/ic_action_edit"
+        android:drawableStart="@drawable/ic_action_edit"/>
 
 </RelativeLayout>

@@ -11,5 +11,11 @@
     <string name="text_name">Name</string>
     <string name="text_address">Address</string>
     <string name="text_notes">Notes</string>
+    <string name="item_image_description">Item Image</string>
+    <string name="icon_name_description">Name</string>
+    <string name="icon_category_description">Category</string>
+    <string name="icon_address_description">Address</string>
+    <string name="icon_map_description">Go to Map</string>
+    <string name="icon_notes_description">Notes</string>
 
 </resources>

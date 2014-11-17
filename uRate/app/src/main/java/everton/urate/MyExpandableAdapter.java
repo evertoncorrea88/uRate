@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -88,13 +89,15 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
             holder = new ViewHolderItem();
             convertView.setTag(holder);
 
-            holder.tvItemTxt = (TextView) convertView.findViewById(R.id.tv_item_txt);
+            holder.tvItemName = (TextView) convertView.findViewById(R.id.tv_item_name);
+            holder.rbRate = (RatingBar) convertView.findViewById(R.id.rb_rate);
         }
         else{
             holder = (ViewHolderItem) convertView.getTag();
         }
 
-        holder.tvItemTxt.setText(item.getName());
+        holder.tvItemName.setText(item.getName());
+        holder.rbRate.setRating(item.getRate());
 
         return convertView;
     }
@@ -109,6 +112,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     class ViewHolderItem {
-        TextView tvItemTxt;
+        TextView tvItemName;
+        RatingBar rbRate;
     }
 }
