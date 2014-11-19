@@ -12,15 +12,28 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+
+
+// added byc ACM 11/19/14
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ItemDetailActivity extends Activity {
+public class ItemDetailActivity extends FragmentActivity {
     private MyApplication myApp;
     private DbAccess dbAccess;
     private Item item;
@@ -36,6 +49,11 @@ public class ItemDetailActivity extends Activity {
     private RatingBar rbRate;
     private EditText etNotes;
     private ImageView ivItemImg;
+
+    // added by ACM on 11/19/14
+    private ImageButton ibmapview;
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +72,10 @@ public class ItemDetailActivity extends Activity {
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
         etNotes = (EditText) findViewById(R.id.et_notes);
         ivItemImg = (ImageView) findViewById(R.id.iv_item_img);
+
+        // added by ACM on 11/19/14
+        ibmapview = (ImageButton) findViewById(R.id.ib_map);
+
 
         btnEditPicture = new FloatingActionButton.Builder(this)
                 .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit))
@@ -116,6 +138,40 @@ public class ItemDetailActivity extends Activity {
                 startActivityForResult(intent, 0);
             }
         });
+
+
+
+        ibmapview.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+
+                Intent intent = new Intent(ItemDetailActivity.this, Map.class);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+
+    }
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p/>
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     */
+    private void setUpMap()
+    {
+        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        LatLng latLng = new LatLng(40.73491,-73.996181);
+        float zoomLevel = 10.0f;
+        //  CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
+        //fragment.getMap().animateCamera(cameraUpdate);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoomLevel));
+
     }
 
     private void loadItem(boolean isNewItem, Intent intent){

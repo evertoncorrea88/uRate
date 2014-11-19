@@ -17,5 +17,9 @@
     <string name="icon_address_description">Address</string>
     <string name="icon_map_description">Go to Map</string>
     <string name="icon_notes_description">Notes</string>
+    <string name="title_activity_map">Map</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
