@@ -195,17 +195,6 @@ public class Map extends FragmentActivity {
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-
-            // added from the https://developers.google.com/maps/documentation/android/marker
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(40.7346411, -73.996181))
-                    .title("Hello world"));
-
-
-            LatLng latLng = new LatLng( 40.7346411, -73.996181);
-            float zoomLevel = 10.0f;
-            //CameraUpdate cameraUpdate = new CameraUpdateFactory.zoomBy();
-            //mMap.animateCamera(cameraUpdate);
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -221,10 +210,12 @@ public class Map extends FragmentActivity {
      */
     private void setUpMap()
     {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         LatLng latLng = new LatLng(40.73491,-73.996181);
         float zoomLevel = 10.0f;
-        //  CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
-        //fragment.getMap().animateCamera(cameraUpdate);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        // added from the https://developers.google.com/maps/documentation/android/marker
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(40.7346411, -73.996181))
+                .title("Hello world"));
+
     }}

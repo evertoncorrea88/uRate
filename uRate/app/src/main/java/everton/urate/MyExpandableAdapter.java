@@ -1,13 +1,19 @@
 package everton.urate;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,10 +24,12 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
     private List<String> listGroup;
     private HashMap<String, List<Item>> listItem;
     private LayoutInflater inflater;
+    private Context context;
 
     public MyExpandableAdapter(Context context, List<String> listGroup, HashMap<String, List<Item>> listItem){
         this.listGroup = listGroup;
         this.listItem = listItem;
+        this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -91,6 +99,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
             holder.tvItemName = (TextView) convertView.findViewById(R.id.tv_item_name);
             holder.rbRate = (RatingBar) convertView.findViewById(R.id.rb_rate);
+            holder.ivItemImg = (ImageView) convertView.findViewById(R.id.iv_item_img);
         }
         else{
             holder = (ViewHolderItem) convertView.getTag();
@@ -98,7 +107,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
         holder.tvItemName.setText(item.getName());
         holder.rbRate.setRating(item.getRate());
-
+        Bitmap image = getThumbnail(item.getFileName());
+        if (image != null){
+            holder.ivItemImg.setImageBitmap(image);
+        }
         return convertView;
     }
 
@@ -114,5 +126,18 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
     class ViewHolderItem {
         TextView tvItemName;
         RatingBar rbRate;
+        ImageView ivItemImg;
+    }
+
+    public Bitmap getThumbnail(String filename) {
+        Bitmap thumbnail = null;
+        try {
+            File filePath = context.getFileStreamPath(filename);
+            FileInputStream fi = new FileInputStream(filePath);
+            thumbnail = BitmapFactory.decodeStream(fi);
+        } catch (Exception ex) {
+            Log.e("getThumbnail() on internal storage", ex.getMessage());
+        }
+        return thumbnail;
     }
 }

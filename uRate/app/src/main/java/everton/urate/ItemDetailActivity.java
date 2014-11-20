@@ -1,10 +1,15 @@
 package everton.urate;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +26,7 @@ import android.widget.Spinner;
 // added byc ACM 11/19/14
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,8 +35,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class ItemDetailActivity extends FragmentActivity {
@@ -38,6 +48,7 @@ public class ItemDetailActivity extends FragmentActivity {
     private DbAccess dbAccess;
     private Item item;
     private boolean isEditMode;
+    private boolean isImgChanged = false;
 
     private Button btnSave;
     private Button btnEdit;
@@ -51,7 +62,7 @@ public class ItemDetailActivity extends FragmentActivity {
     private ImageView ivItemImg;
 
     // added by ACM on 11/19/14
-    private ImageButton ibmapview;
+    private ImageButton ibMapView;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
 
@@ -74,8 +85,7 @@ public class ItemDetailActivity extends FragmentActivity {
         ivItemImg = (ImageView) findViewById(R.id.iv_item_img);
 
         // added by ACM on 11/19/14
-        ibmapview = (ImageButton) findViewById(R.id.ib_map);
-
+        ibMapView = (ImageButton) findViewById(R.id.ib_map);
 
         btnEditPicture = new FloatingActionButton.Builder(this)
                 .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit))
@@ -105,20 +115,30 @@ public class ItemDetailActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (item == null){
+                    //If it's a new item, insert it to the db
+                    String fileName = UUID.randomUUID().toString().replace("-", "_");
                     item = new Item();
                     item.setName(etName.getText().toString());
                     item.setCategory(spinCategory.getSelectedItem().toString());
                     item.setAddress(etAddress.getText().toString());
                     item.setRate(rbRate.getRating());
                     item.setNotes(etNotes.getText().toString());
+                    item.setFileName(fileName);
                     dbAccess.insert(item);
+                    if (isImgChanged == true){
+                        saveImageToInternalStorage(((BitmapDrawable)ivItemImg.getDrawable()).getBitmap(), fileName);
+                    }
                 }else {
+                    //If it's an old item, update it in the db
                     item.setName(etName.getText().toString());
                     item.setCategory(spinCategory.getSelectedItem().toString());
                     item.setAddress(etAddress.getText().toString());
                     item.setRate(rbRate.getRating());
                     item.setNotes(etNotes.getText().toString());
                     dbAccess.update(item);
+                    if (isImgChanged == true){
+                        saveImageToInternalStorage(((BitmapDrawable)ivItemImg.getDrawable()).getBitmap(), item.getFileName());
+                    }
                 }
                 finish();
             }
@@ -139,38 +159,13 @@ public class ItemDetailActivity extends FragmentActivity {
             }
         });
 
-
-
-        ibmapview.setOnClickListener(new View.OnClickListener(){
+        ibMapView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-
-
                 Intent intent = new Intent(ItemDetailActivity.this, Map.class);
                 startActivity(intent);
-
-
             }
         });
-
-
-
-    }
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap()
-    {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        LatLng latLng = new LatLng(40.73491,-73.996181);
-        float zoomLevel = 10.0f;
-        //  CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
-        //fragment.getMap().animateCamera(cameraUpdate);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoomLevel));
 
     }
 
@@ -186,6 +181,10 @@ public class ItemDetailActivity extends FragmentActivity {
             etAddress.setText(item.getAddress());
             rbRate.setRating(item.getRate());
             etNotes.setText(item.getNotes());
+            Bitmap image = getThumbnail(item.getFileName());
+            if (image != null){
+                ivItemImg.setImageBitmap(image);
+            }
         }else {
             //
         }
@@ -215,12 +214,40 @@ public class ItemDetailActivity extends FragmentActivity {
         }
     }
 
+    public boolean saveImageToInternalStorage(Bitmap image, String fileName) {
+        try {
+            FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+            return true;
+        } catch (Exception e) {
+            Log.e("saveToInternalStorage()", e.getMessage());
+            return false;
+        }
+    }
+
+    public Bitmap getThumbnail(String filename) {
+        Bitmap thumbnail = null;
+        try {
+            File filePath = getFileStreamPath(filename);
+            FileInputStream fi = new FileInputStream(filePath);
+            thumbnail = BitmapFactory.decodeStream(fi);
+        } catch (Exception ex) {
+            Log.e("getThumbnail() on internal storage", ex.getMessage());
+        }
+        return thumbnail;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
-        if (bp != null){
-            ivItemImg.setImageBitmap(bp);
+        if(data != null){
+            Bundle bundle = data.getExtras();
+            if (bundle != null){
+                Bitmap img = (Bitmap) bundle.get("data");
+                ivItemImg.setImageBitmap(img);
+                isImgChanged = true;
+            }
         }
     }
 

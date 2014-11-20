@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DbCore extends SQLiteOpenHelper {
     private static final String DB_NAME = "uRateDB";
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 12;
 
 
     public DbCore(Context ctx){
@@ -19,7 +19,7 @@ public class DbCore extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE items(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, " +
-                   "category TEXT NOT NULL, address TEXT, rate REAL NOT NULL, notes TEXT);");
+                   "category TEXT NOT NULL, address TEXT, rate REAL NOT NULL, notes TEXT, fileName TEXT);");
     }
 
     @Override

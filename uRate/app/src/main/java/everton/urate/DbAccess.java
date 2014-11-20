@@ -28,6 +28,7 @@ public class DbAccess {
         values.put("address", item.getAddress());
         values.put("rate", item.getRate());
         values.put("notes", item.getNotes());
+        values.put("fileName", item.getFileName());
 
         db.insert("items", null, values);
     }
@@ -51,9 +52,9 @@ public class DbAccess {
     public List<Item> retrieveItems(){
         List<Item> listItems = new ArrayList<Item>();
 
-        String[] columns = new String[]{"_id", "name", "category", "address", "rate", "notes"};
+        String[] columns = new String[]{"_id", "name", "category", "address", "rate", "notes", "fileName"};
 
-        Cursor cursor = db.query("items", null, null, null, null, null, "name ASC");
+        Cursor cursor = db.query("items", columns, null, null, null, null, "name ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
@@ -64,6 +65,7 @@ public class DbAccess {
             item.setAddress(cursor.getString(3));
             item.setRate(cursor.getFloat(4));
             item.setNotes(cursor.getString(5));
+            item.setFileName(cursor.getString(6));
             listItems.add(item);
 
             cursor.moveToNext();

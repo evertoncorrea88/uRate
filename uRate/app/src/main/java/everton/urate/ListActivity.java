@@ -13,7 +13,7 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.UUID;
 
 public class ListActivity extends Activity {
     private MyApplication myApp;
@@ -89,6 +89,7 @@ public class ListActivity extends Activity {
 
     private void createDummy(){
         Item item = new Item();
+        String fileName;
 
         item.setNotes("Test");
         item.setRate(2.5f);
@@ -96,34 +97,46 @@ public class ListActivity extends Activity {
 
         item.setCategory("FastFood");
         item.setName("Subway");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("McDonald's");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("Wendy's");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("BURGER KING");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
 
         item.setCategory("Pizzeria");
         item.setName("Papa John's Pizza");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("Majestic Pizza");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("Pronto Pizza");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
 
         item.setCategory("Coffee Shop");
         item.setName("Starbucks");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("Dunkin' Donuts");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("Pearl Cafe");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
 
         item.setCategory("Mexican Food");
         item.setName("Chipotle Mexican Grill");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
         item.setName("Toloache Taqueria");
+        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
         dbAccess.insert(item);
     }
 

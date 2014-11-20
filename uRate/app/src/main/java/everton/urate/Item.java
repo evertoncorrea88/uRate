@@ -11,6 +11,7 @@ public class Item {
     private String address;
     private float rate;
     private String notes;
+    private String fileName;
 
     public long getId() {
         return id;
@@ -59,4 +60,13 @@ public class Item {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
 }
