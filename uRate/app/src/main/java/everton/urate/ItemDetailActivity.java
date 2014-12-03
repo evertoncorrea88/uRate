@@ -47,6 +47,7 @@ public class ItemDetailActivity extends FragmentActivity {
     private MyApplication myApp;
     private DbAccess dbAccess;
     private Item item;
+    private Item itemCopy;
     private boolean isEditMode;
     private boolean isImgChanged = false;
 
@@ -108,6 +109,7 @@ public class ItemDetailActivity extends FragmentActivity {
             public void onClick(View v) {
                 isEditMode = true;
                 executionMode(isEditMode);
+                itemCopy = item;
             }
         });
 
@@ -147,7 +149,15 @@ public class ItemDetailActivity extends FragmentActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                isEditMode = false;
+                executionMode(isEditMode);
+                item = itemCopy;
+                etName.setText(item.getName());
+                spinCategory.setSelection(myApp.listGroup.indexOf(item.getCategory()));
+                etAddress.setText(item.getAddress());
+                rbRate.setRating(item.getRate());
+                etNotes.setText(item.getNotes());
+
             }
         });
 
