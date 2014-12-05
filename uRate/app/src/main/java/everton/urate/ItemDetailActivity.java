@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,13 +54,14 @@ public class ItemDetailActivity extends FragmentActivity {
     private Button btnSave;
     private Button btnEdit;
     private Button btnCancel;
-    private FloatingActionButton btnEditPicture;
+//    private FloatingActionButton btnEditPicture;
     private EditText etName;
     private Spinner spinCategory;
     private EditText etAddress;
     private RatingBar rbRate;
     private EditText etNotes;
     private ImageView ivItemImg;
+    private ImageView ivEditImg;
 
     // added by ACM on 11/19/14
     private ImageButton ibMapView;
@@ -83,16 +85,18 @@ public class ItemDetailActivity extends FragmentActivity {
         rbRate = (RatingBar) findViewById(R.id.rb_rate);
         etNotes = (EditText) findViewById(R.id.et_notes);
         ivItemImg = (ImageView) findViewById(R.id.iv_item_img);
-
+        // added by PTR on 12/05/14 adds edit icon to ivItemImg
+        ivEditImg = (ImageView) findViewById(R.id.iv_edit_img);
         // added by ACM on 11/19/14
         ibMapView = (ImageButton) findViewById(R.id.ib_map);
 
-        btnEditPicture = new FloatingActionButton.Builder(this)
-                .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit_w))
-                .withButtonColor(Color.parseColor("#FF0099"))
-                .withGravity(Gravity.TOP | Gravity.RIGHT)
-                .withMargins(0, 80, 15, 0)
-                .create();
+        //removed by PTR 12/05/14 added listener to ivItemImg
+//        btnEditPicture = new FloatingActionButton.Builder(this)
+//                .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit_w))
+//                .withButtonColor(Color.parseColor("#FF0099"))
+//                .withGravity(Gravity.TOP | Gravity.RIGHT)
+//                .withMargins(0, 80, 15, 0)
+//                .create();
 
         ArrayAdapter<String> adapter =  new ArrayAdapter(this, android.R.layout.simple_spinner_item, myApp.listGroup);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -143,21 +147,33 @@ public class ItemDetailActivity extends FragmentActivity {
                 finish();
             }
         });
-
+        // Cancels out of edit mode. Only viewable in edit mode.
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-        btnEditPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 0);
-            }
-        });
+        // In EditMode user can click image to add or edit the image
+        ivItemImg.setOnClickListener(new View.OnClickListener(){
+             @Override
+             public void onClick(View v){
+                 // if only allows allows Image Capture on click when in edit mode
+                 if(isEditMode){
+                     Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                     startActivityForResult(intent, 0);
+                 }
+             }
+         }
+        );
+          //removed by PTR 12/05/14 added listener to ivItemImg
+//        btnEditPicture.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent, 0);
+//            }
+//        });
 
         ibMapView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -189,13 +205,14 @@ public class ItemDetailActivity extends FragmentActivity {
             //
         }
     }
-
+    // method determines what is displayed based on isEditMode
     private void executionMode(boolean isEditMode){
         if (isEditMode){
             btnEdit.setVisibility(View.GONE);
             btnSave.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
-            btnEditPicture.setVisibility(View.VISIBLE);
+//            btnEditPicture.setVisibility(View.GONE);
+            ivEditImg.setVisibility(View.VISIBLE);
             etName.setEnabled(true);
             spinCategory.setEnabled(true);
             etAddress.setEnabled(true);
@@ -205,12 +222,14 @@ public class ItemDetailActivity extends FragmentActivity {
             btnEdit.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
-            btnEditPicture.setVisibility(View.GONE);
+//            btnEditPicture.setVisibility(View.GONE);
             etName.setEnabled(false);
             spinCategory.setEnabled(false);
             etAddress.setEnabled(false);
             rbRate.setEnabled(false);
             etNotes.setEnabled(false);
+            // prevents soft keyboard from appearing when not editing
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
     }
 

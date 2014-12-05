@@ -9,22 +9,35 @@
     android:layout_height="match_parent"
     tools:context="everton.urate.ItemDetailActivity">
 
-    <ImageView
-        android:id="@+id/iv_item_img"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/item_image_placeholder"
-        android:contentDescription="@string/item_image_description"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_item_img">
+        <ImageView
+            android:id="@+id/iv_item_img"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/item_image_placeholder"
+            android:contentDescription="@string/item_image_description"/>
+        <ImageView
+            android:id="@+id/iv_edit_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_action_edit_w"
+            android:visibility="invisible"/>
+    </RelativeLayout>
 
     <RatingBar
         android:id="@+id/rb_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_item_img"
+        android:layout_below="@+id/layout_item_img"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:numStars="3"/>
