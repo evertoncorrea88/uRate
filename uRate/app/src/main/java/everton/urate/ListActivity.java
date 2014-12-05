@@ -53,8 +53,8 @@ public class ListActivity extends Activity {
         });
 
         FloatingActionButton btnNewItem = new FloatingActionButton.Builder(this)
-                .withDrawable(getResources().getDrawable(R.drawable.ic_action_new2))
-                .withButtonColor(Color.parseColor("#BDBDBD"))
+                .withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
+                .withButtonColor(Color.parseColor("#FF0099"))
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)
                 .create();

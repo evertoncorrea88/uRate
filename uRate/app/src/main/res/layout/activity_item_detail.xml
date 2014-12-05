@@ -1,12 +1,12 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="everton.urate.ItemDetailActivity">
 
     <ImageView
@@ -118,14 +118,22 @@
         <EditText
             android:id="@+id/et_notes"
             android:inputType="textMultiLine"
-            android:maxLines="3"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/text_notes"/>
     </LinearLayout>
 
-    <Button
+    <RelativeLayout
+        android:id="@+id/rl_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/notes_line"
+        android:padding="15dp">
+
+        <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,7 +142,8 @@
         android:layout_alignParentEnd="true"
         android:text="@string/button_save"
         android:drawableLeft="@drawable/ic_action_save"
-        android:drawableStart="@drawable/ic_action_save"/>
+        android:drawableStart="@drawable/ic_action_save"
+        style="?android:attr/borderlessButtonStyle"/>
 
     <Button
         android:id="@+id/btn_cancel"
@@ -145,7 +154,9 @@
         android:layout_toStartOf="@+id/btn_save"
         android:text="@string/button_cancel"
         android:drawableLeft="@drawable/ic_action_cancel"
-        android:drawableStart="@drawable/ic_action_cancel"/>
+        android:drawableStart="@drawable/ic_action_cancel"
+        style="?android:attr/borderlessButtonStyle"
+        android:paddingRight="15dp"/>
 
     <Button
         android:id="@+id/btn_edit"
@@ -156,6 +167,9 @@
         android:layout_alignParentEnd="true"
         android:text="@string/button_edit"
         android:drawableLeft="@drawable/ic_action_edit"
-        android:drawableStart="@drawable/ic_action_edit"/>
+        android:drawableStart="@drawable/ic_action_edit"
+        style="?android:attr/borderlessButtonStyle"/>
+    </RelativeLayout>
 
 </RelativeLayout>
+</ScrollView>

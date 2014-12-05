@@ -88,10 +88,10 @@ public class ItemDetailActivity extends FragmentActivity {
         ibMapView = (ImageButton) findViewById(R.id.ib_map);
 
         btnEditPicture = new FloatingActionButton.Builder(this)
-                .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit))
-                .withButtonColor(Color.parseColor("#BDBDBD"))
+                .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit_w))
+                .withButtonColor(Color.parseColor("#FF0099"))
                 .withGravity(Gravity.TOP | Gravity.RIGHT)
-                .withMargins(0, 90, 25, 0)
+                .withMargins(0, 80, 15, 0)
                 .create();
 
         ArrayAdapter<String> adapter =  new ArrayAdapter(this, android.R.layout.simple_spinner_item, myApp.listGroup);
