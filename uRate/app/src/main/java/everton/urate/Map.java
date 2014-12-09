@@ -10,6 +10,9 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +28,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * @see SystemUiHider
  */
 public class Map extends FragmentActivity {
+
+    private MyApplication myApp;
+    private Spinner spinMapCategory;
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -59,6 +65,19 @@ public class Map extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        myApp = (MyApplication) getApplication();
+        spinMapCategory =  (Spinner) findViewById(R.id.spin_map_category);
+
+        ArrayAdapter<String> adapter =  new ArrayAdapter(this, android.R.layout.simple_spinner_item, myApp.listGroup);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMapCategory.setAdapter(adapter);
+
+        spinMapCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
 
         setUpMapIfNeeded();
 
@@ -218,4 +237,13 @@ public class Map extends FragmentActivity {
                 .position(new LatLng(40.7114,-74.0051))
                 .title("Hello world"));
 
-    }}
+    }
+
+    private void setUpMap(LatLng... latLngs){
+        //for each latLngs
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+//        mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(40.7114,-74.0051))
+//                .title("Hello world"));
+    }
+}

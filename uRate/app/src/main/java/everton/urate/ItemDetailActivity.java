@@ -194,7 +194,7 @@ public class ItemDetailActivity extends FragmentActivity {
         ibMapView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemDetailActivity.this, Map.class);
+                Intent intent = new Intent(ItemDetailActivity.this, MapActivity.class);
                 startActivity(intent);
             }
         });
