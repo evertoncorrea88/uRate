@@ -1,7 +1,9 @@
 package everton.urate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -48,6 +51,7 @@ public class ItemDetailActivity extends FragmentActivity {
     private MyApplication myApp;
     private DbAccess dbAccess;
     private Item item;
+    private Item itemCopy;
     private boolean isEditMode;
     private boolean isImgChanged = false;
 
@@ -66,6 +70,7 @@ public class ItemDetailActivity extends FragmentActivity {
     // added by ACM on 11/19/14
     private ImageButton ibMapView;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private ImageButton ibNewCategory;
 
 
     @Override
@@ -87,8 +92,10 @@ public class ItemDetailActivity extends FragmentActivity {
         ivItemImg = (ImageView) findViewById(R.id.iv_item_img);
         // added by PTR on 12/05/14 adds edit icon to ivItemImg
         ivEditImg = (ImageView) findViewById(R.id.iv_edit_img);
+
         // added by ACM on 11/19/14
         ibMapView = (ImageButton) findViewById(R.id.ib_map);
+        ibNewCategory = (ImageButton) findViewById(R.id.ib_new_cat);
 
         //removed by PTR 12/05/14 added listener to ivItemImg
 //        btnEditPicture = new FloatingActionButton.Builder(this)
@@ -112,6 +119,7 @@ public class ItemDetailActivity extends FragmentActivity {
             public void onClick(View v) {
                 isEditMode = true;
                 executionMode(isEditMode);
+                itemCopy = item;
             }
         });
 
@@ -151,7 +159,15 @@ public class ItemDetailActivity extends FragmentActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                isEditMode = false;
+                executionMode(isEditMode);
+                item = itemCopy;
+                etName.setText(item.getName());
+                spinCategory.setSelection(myApp.listGroup.indexOf(item.getCategory()));
+                etAddress.setText(item.getAddress());
+                rbRate.setRating(item.getRate());
+                etNotes.setText(item.getNotes());
+
             }
         });
         // In EditMode user can click image to add or edit the image
@@ -183,6 +199,41 @@ public class ItemDetailActivity extends FragmentActivity {
             }
         });
 
+        ibNewCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                builder.setTitle("Crete new category");
+// Set up the input
+                final EditText input = new EditText(ItemDetailActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+// Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newCategory = input.getText().toString();
+
+                        myApp.listGroup.add(newCategory);
+                        ArrayAdapter<String> adapter =  new ArrayAdapter(ItemDetailActivity.this, android.R.layout.simple_spinner_item, myApp.listGroup);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinCategory.setAdapter(adapter);
+
+                        spinCategory.setSelection(myApp.listGroup.indexOf(newCategory));
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
     }
 
     private void loadItem(boolean isNewItem, Intent intent){
