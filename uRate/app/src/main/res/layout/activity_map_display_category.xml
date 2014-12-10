@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0099cc"
-    tools:context="everton.urate.Map">
+    tools:context="everton.urate.MapDisplayCategoryActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -14,8 +14,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context=".MapsActivity"
+        android:id="@+id/map_display_category"
+        tools:context=".MapDisplayCategoryActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
     <!-- This FrameLayout insets its children based on system windows using
@@ -28,7 +28,7 @@
         android:id="@+id/spin_map_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/map"
+        android:layout_above="@id/map_display_category"
         android:padding="15dp"
         android:background="#3949AB"/>
 

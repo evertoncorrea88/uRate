@@ -39,19 +39,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="everton.urate.Map"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_map"
-            android:theme="@style/FullscreenTheme" >
+            android:name="everton.urate.MapDisplayCategoryActivity"
+            android:label="@string/title_activity_map" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action." />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
-            android:name="everton.urate.MapActivity"
+            android:name="everton.urate.MapGetLocationActivity"
             android:label="@string/title_activity_map" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action." />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
         </activity>
 
         <meta-data

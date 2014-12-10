@@ -26,8 +26,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-
-public class MapActivity extends FragmentActivity {
+// Added by PTR 12/09. This class is opened by the Map tab. The user can select a category
+// from the Spinner and the addresses for that category will be displayed on the map.
+public class MapDisplayCategoryActivity extends FragmentActivity {
 
     private static final String TAG = "MapActivity";
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -41,8 +42,18 @@ public class MapActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_map_display_category);
 
+
+
+        setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Added by PTR 12/09 The spinner is used to select a category of addresses to display.
         myApp = (MyApplication) getApplication();
         spinMapCategory =  (Spinner) findViewById(R.id.spin_map_category);
 
@@ -54,7 +65,7 @@ public class MapActivity extends FragmentActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                Toast.makeText(getApplicationContext(), "Category is: " + position, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -63,12 +74,6 @@ public class MapActivity extends FragmentActivity {
             }
         });
 
-        setUpMapIfNeeded();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         setUpMapIfNeeded();
     }
 
@@ -91,7 +96,7 @@ public class MapActivity extends FragmentActivity {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_display_category))
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
@@ -107,7 +112,7 @@ public class MapActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        gps = new GPS(MapActivity.this);
+        gps = new GPS(MapDisplayCategoryActivity.this);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
