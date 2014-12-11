@@ -56,7 +56,7 @@ public class ItemDetailActivity extends FragmentActivity {
 
     // added by ACM on 11/19/14
     private ImageButton ibMapView;
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ImageButton ibNewCategory;
 
 
@@ -181,7 +181,7 @@ public class ItemDetailActivity extends FragmentActivity {
         ibMapView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemDetailActivity.this, MapGetLocationActivity.class);
+                Intent intent = new Intent(ItemDetailActivity.this, MapDisplayCategoryActivity.class);
                 startActivity(intent);
             }
         });

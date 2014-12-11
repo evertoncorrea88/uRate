@@ -1,5 +1,7 @@
 package everton.urate;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Everton on 11/8/14.
  */
@@ -9,6 +11,8 @@ public class Item {
     private String name;
     private String category;
     private String address;
+    private double lat;
+    private double lng;
     private float rate;
     private String notes;
     private String fileName;
@@ -43,6 +47,22 @@ public class Item {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public float getRate() {

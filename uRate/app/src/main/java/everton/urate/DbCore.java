@@ -19,7 +19,8 @@ public class DbCore extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE items(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, " +
-                   "category TEXT NOT NULL, address TEXT, rate REAL NOT NULL, notes TEXT, fileName TEXT);");
+                   "category TEXT NOT NULL, address TEXT, lat REAL, lng REAL, rate REAL NOT NULL, " +
+                   "notes TEXT, fileName TEXT);");
     }
 
     @Override

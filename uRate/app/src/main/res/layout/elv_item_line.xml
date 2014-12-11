@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#5c6bc0">
 
     <ImageView
         android:id="@+id/iv_item_img"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:textColor="#757575"/>
+        android:textColor="#ffff00"/>
 
     <RatingBar
         android:id="@+id/rb_rate"

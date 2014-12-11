@@ -58,8 +58,8 @@ public class MapGetLocationActivity extends FragmentActivity {
         FloatingActionButton btnNewItem = new FloatingActionButton.Builder(this)
                 .withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
                 .withButtonColor(Color.parseColor("#FF0099"))
-                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
-                .withMargins(0, 0, 16, 16)
+                .withGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
+                .withMargins(0, 0, 0, 16)
                 .create();
 
         btnNewItem.setOnClickListener(new View.OnClickListener() {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ListActivity"
-    android:background="#FFFFFF">
+    android:background="#FFFF00">
 
     <ExpandableListView
         android:id="@+id/elv"

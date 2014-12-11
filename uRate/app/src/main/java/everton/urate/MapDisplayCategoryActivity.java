@@ -59,17 +59,31 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
 
         ArrayAdapter<String> adapter =  new ArrayAdapter(this, android.R.layout.simple_spinner_item, myApp.listGroup);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMapCategory.setPrompt("Select a Category");
         spinMapCategory.setAdapter(adapter);
 
         spinMapCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Category is: " + position, Toast.LENGTH_LONG).show();
+                // Added PTR 12/11. Clears existing markers off map then adds markers with itemName
+                // for each item in the category selected from the spinner.
+
+                mMap.clear();
+                List<Item> itemlist = myApp.listItem.get(myApp.listGroup.get(position));
+                for (Item i : itemlist) {
+                    double lat = i.getLat();
+                    double lng = i.getLng();
+                    String name = i.getName();
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(name));
+                }
+
+//                Toast.makeText(getApplicationContext(), "Category is: " + myApp.listGroup.get(position), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getApplicationContext(), "Select a category", Toast.LENGTH_LONG).show();
 
             }
         });

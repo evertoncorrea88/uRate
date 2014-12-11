@@ -26,6 +26,8 @@ public class DbAccess {
         values.put("name", item.getName());
         values.put("category", item.getCategory());
         values.put("address", item.getAddress());
+        values.put("lat", item.getLat());
+        values.put("lng", item.getLng());
         values.put("rate", item.getRate());
         values.put("notes", item.getNotes());
         values.put("fileName", item.getFileName());
@@ -38,6 +40,8 @@ public class DbAccess {
         values.put("name", item.getName());
         values.put("category", item.getCategory());
         values.put("address", item.getAddress());
+        values.put("lat", item.getLat());
+        values.put("lng", item.getLng());
         values.put("rate", item.getRate());
         values.put("notes", item.getNotes());
 
@@ -52,9 +56,9 @@ public class DbAccess {
     public List<Item> retrieveItems(){
         List<Item> listItems = new ArrayList<Item>();
 
-        String[] columns = new String[]{"_id", "name", "category", "address", "rate", "notes", "fileName"};
+        String[] columns = new String[]{"_id", "name", "category", "address", "lat", "lng", "rate", "notes", "fileName"};
 
-        Cursor cursor = db.query("items", columns, null, null, null, null, "name ASC");
+        Cursor cursor = db.query("items", columns, null, null, null, null, "category, name ASC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
@@ -63,9 +67,11 @@ public class DbAccess {
             item.setName(cursor.getString(1));
             item.setCategory(cursor.getString(2));
             item.setAddress(cursor.getString(3));
-            item.setRate(cursor.getFloat(4));
-            item.setNotes(cursor.getString(5));
-            item.setFileName(cursor.getString(6));
+            item.setLat(cursor.getDouble(4));
+            item.setLng(cursor.getDouble(5));
+            item.setRate(cursor.getFloat(6));
+            item.setNotes(cursor.getString(7));
+            item.setFileName(cursor.getString(8));
             listItems.add(item);
 
             cursor.moveToNext();
