@@ -92,24 +92,34 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
         ViewHolderItem holder;
         Item item = (Item) getChild(groupPosition, childPosition);
 
-        if(convertView == null){
-            convertView = inflater.inflate(R.layout.elv_item_line, null);
-            holder = new ViewHolderItem();
-            convertView.setTag(holder);
+        convertView = inflater.inflate(R.layout.elv_item_line, null);
+        holder = new ViewHolderItem();
+        convertView.setTag(holder);
 
-            holder.tvItemName = (TextView) convertView.findViewById(R.id.tv_item_name);
-            holder.rbRate = (RatingBar) convertView.findViewById(R.id.rb_rate);
-            holder.ivItemImg = (ImageView) convertView.findViewById(R.id.iv_item_img);
-        }
-        else{
-            holder = (ViewHolderItem) convertView.getTag();
-        }
+        holder.tvItemName = (TextView) convertView.findViewById(R.id.tv_item_name);
+        holder.rbRate = (RatingBar) convertView.findViewById(R.id.rb_rate);
+        holder.ivItemImg = (ImageView) convertView.findViewById(R.id.iv_item_img);
+
+//        if(convertView == null){
+//            convertView = inflater.inflate(R.layout.elv_item_line, null);
+//            holder = new ViewHolderItem();
+//            convertView.setTag(holder);
+//
+//            holder.tvItemName = (TextView) convertView.findViewById(R.id.tv_item_name);
+//            holder.rbRate = (RatingBar) convertView.findViewById(R.id.rb_rate);
+//            holder.ivItemImg = (ImageView) convertView.findViewById(R.id.iv_item_img);
+//        }
+//        else{
+//            holder = (ViewHolderItem) convertView.getTag();
+//        }
 
         holder.tvItemName.setText(item.getName());
         holder.rbRate.setRating(item.getRate());
         Bitmap image = getThumbnail(item.getFileName());
         if (image != null){
             holder.ivItemImg.setImageBitmap(image);
+        }else {
+            holder.ivItemImg.setImageResource(convertView.getResources().getIdentifier("everton.urate:drawable/iv_item_img", null, null));
         }
         return convertView;
     }
@@ -135,8 +145,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
             File filePath = context.getFileStreamPath(filename);
             FileInputStream fi = new FileInputStream(filePath);
             thumbnail = BitmapFactory.decodeStream(fi);
+//            Log.i("Image FOUND: " + filename, "Nada");
+
         } catch (Exception ex) {
-            Log.e("getThumbnail() on internal storage", ex.getMessage());
+//            Log.e("Image Not found. File name: " + filename, ex.getMessage());
         }
         return thumbnail;
     }

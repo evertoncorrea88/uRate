@@ -2,198 +2,199 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="everton.urate.ItemDetailActivity">
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_item_img">
-        <ImageView
-            android:id="@+id/iv_item_img"
+        android:layout_height="match_parent"
+        tools:context="everton.urate.ItemDetailActivity">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_item_img">
+            <ImageView
+                android:id="@+id/iv_item_img"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/item_image_placeholder"
+                android:contentDescription="@string/item_image_description"/>
+            <ImageView
+                android:id="@+id/iv_edit_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_action_edit_w"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+        <RatingBar
+            android:id="@+id/rb_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_item_img"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/item_image_placeholder"
-            android:contentDescription="@string/item_image_description"/>
-        <ImageView
-            android:id="@+id/iv_edit_img"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:numStars="3"/>
+
+        <LinearLayout
+            android:id="@+id/name_line"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rb_rate"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_name"
+                android:contentDescription="@string/icon_name_description"/>
+            <EditText
+                android:id="@+id/et_name_item"
+                android:inputType="text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/text_name"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/category_line"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/name_line"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_category"
+                android:contentDescription="@string/icon_category_description"/>
+            <Spinner
+                android:id="@+id/spin_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@android:style/Theme.Holo.Light"/>
+            <ImageButton
+                android:id="@+id/ib_new_cat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_new2"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/icon_map_description"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/address_line"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/category_line"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_address"
+                android:contentDescription="@string/icon_address_description"
+                android:baselineAlignBottom="true"/>
+            <EditText
+                android:id="@+id/et_address"
+                android:inputType="text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/text_address"
+                />
+            <ImageButton
+                android:id="@+id/ib_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_geo_fence_black"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@string/icon_map_description"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/notes_line"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_below="@+id/address_line"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_notes"
+                android:contentDescription="@string/icon_notes_description"/>
+            <EditText
+                android:id="@+id/et_notes"
+                android:inputType="textMultiLine"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/text_notes"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_action_edit_w"
-            android:visibility="invisible"/>
+            android:layout_below="@id/notes_line"
+            android:padding="15dp">
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:text="@string/button_save"
+                android:drawableLeft="@drawable/ic_action_save"
+                android:drawableStart="@drawable/ic_action_save"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/btn_save"
+                android:layout_toStartOf="@+id/btn_save"
+                android:text="@string/button_cancel"
+                android:drawableLeft="@drawable/ic_action_cancel"
+                android:drawableStart="@drawable/ic_action_cancel"
+                style="?android:attr/borderlessButtonStyle"
+                android:paddingRight="15dp"/>
+
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:text="@string/button_edit"
+                android:drawableLeft="@drawable/ic_action_edit"
+                android:drawableStart="@drawable/ic_action_edit"
+                style="?android:attr/borderlessButtonStyle"/>
+        </RelativeLayout>
+
     </RelativeLayout>
-
-    <RatingBar
-        android:id="@+id/rb_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_item_img"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:numStars="3"/>
-
-    <LinearLayout
-        android:id="@+id/name_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rb_rate"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_name"
-            android:contentDescription="@string/icon_name_description"/>
-        <EditText
-            android:id="@+id/et_name_item"
-            android:inputType="text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/text_name"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/category_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_line"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_category"
-            android:contentDescription="@string/icon_category_description"/>
-        <Spinner
-            android:id="@+id/spin_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:theme="@android:style/Theme.Holo.Light"/>
-        <ImageButton
-            android:id="@+id/ib_new_cat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_new2"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/icon_map_description"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/address_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/category_line"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_address"
-            android:contentDescription="@string/icon_address_description"
-            android:baselineAlignBottom="true"/>
-        <EditText
-            android:id="@+id/et_address"
-            android:inputType="text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/text_address"
-            />
-        <ImageButton
-            android:id="@+id/ib_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_location"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/icon_map_description"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/notes_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/address_line"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_notes"
-            android:contentDescription="@string/icon_notes_description"/>
-        <EditText
-            android:id="@+id/et_notes"
-            android:inputType="textMultiLine"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/text_notes"/>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/notes_line"
-        android:padding="15dp">
-
-        <Button
-        android:id="@+id/btn_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/button_save"
-        android:drawableLeft="@drawable/ic_action_save"
-        android:drawableStart="@drawable/ic_action_save"
-        style="?android:attr/borderlessButtonStyle"/>
-
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btn_save"
-        android:layout_toStartOf="@+id/btn_save"
-        android:text="@string/button_cancel"
-        android:drawableLeft="@drawable/ic_action_cancel"
-        android:drawableStart="@drawable/ic_action_cancel"
-        style="?android:attr/borderlessButtonStyle"
-        android:paddingRight="15dp"/>
-
-    <Button
-        android:id="@+id/btn_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/button_edit"
-        android:drawableLeft="@drawable/ic_action_edit"
-        android:drawableStart="@drawable/ic_action_edit"
-        style="?android:attr/borderlessButtonStyle"/>
-    </RelativeLayout>
-
-</RelativeLayout>
 </ScrollView>
