@@ -2,6 +2,7 @@ package everton.urate;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,10 +11,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -66,8 +71,7 @@ public class ListFragment extends Fragment {
         FloatingActionButton btnNewItem = new FloatingActionButton.Builder(getActivity())
                 .withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
                 .withButtonColor(Color.parseColor("#FF0099"))
-                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
-                .withMargins(0, 0, 16, 16)
+                .withGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
                 .create();
 
         btnNewItem.setOnClickListener(new View.OnClickListener() {

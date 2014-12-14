@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-// Added by PTR 12/09. This class is opened by the Map tab. The user can select a category
-// from the Spinner and the addresses for that category will be displayed on the map.
 public class MapDisplayCategoryActivity extends FragmentActivity {
 
     private static final String TAG = "MapActivity";
@@ -36,16 +34,12 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
     private MyApplication myApp;
     private Spinner spinMapCategory;
 
-    // GPS class
     GPS gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_display_category);
-
-
-
         setUpMapIfNeeded();
     }
 
@@ -53,7 +47,6 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        // Added by PTR 12/09 The spinner is used to select a category of addresses to display.
         myApp = (MyApplication) getApplication();
         spinMapCategory =  (Spinner) findViewById(R.id.spin_map_category);
 
@@ -66,9 +59,6 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Added PTR 12/11. Clears existing markers off map then adds markers with itemName
-                // for each item in the category selected from the spinner.
-
                 mMap.clear();
                 List<Item> itemlist = myApp.listItem.get(myApp.listGroup.get(position));
                 for (Item i : itemlist) {
@@ -77,10 +67,7 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
                     String name = i.getName();
                     mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(name));
                 }
-
-//                Toast.makeText(getApplicationContext(), "Category is: " + myApp.listGroup.get(position), Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(getApplicationContext(), "Select a category", Toast.LENGTH_LONG).show();
@@ -91,40 +78,6 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
         setUpMapIfNeeded();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p>
-     * If it isn't installed {@link com.google.android.gms.maps.SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(android.os.Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_display_category))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
-    }
-
-   /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
     private void setUpMap() {
         gps = new GPS(MapDisplayCategoryActivity.this);
 
@@ -155,6 +108,19 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
             gps.showSettingsAlert();
         }
 
+    }
+
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_display_category))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
     }
 
     public static void getAddressFromLocation(
