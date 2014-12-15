@@ -8,13 +8,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,16 +23,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 
-
-// added byc ACM 11/19/14
-import android.support.v4.app.FragmentActivity;
-
-import com.google.android.gms.maps.GoogleMap;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.UUID;
+
+// added byc ACM 11/19/14
 
 
 public class ItemDetailActivity extends FragmentActivity {
@@ -43,11 +38,11 @@ public class ItemDetailActivity extends FragmentActivity {
     private Item itemCopy;
     private boolean isEditMode;
     private boolean isImgChanged = false;
-
+    private boolean isLocChanged = false;
     private Button btnSave;
     private Button btnEdit;
     private Button btnCancel;
-//    private FloatingActionButton btnEditPicture;
+    //    private FloatingActionButton btnEditPicture;
     private EditText etName;
     private Spinner spinCategory;
     private EditText etAddress;
@@ -60,7 +55,10 @@ public class ItemDetailActivity extends FragmentActivity {
     private ImageButton ibMapView;
     //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ImageButton ibNewCategory;
-
+    private EditText latituteField;
+    private EditText longitudeField;
+    private LocationManager locationManager;
+    private String provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +68,18 @@ public class ItemDetailActivity extends FragmentActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         setContentView(R.layout.activity_item_detail);
+
+        //acm12/14
+        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        //Criteria criteria = new Criteria();
+       // provider = locationManager.getBestProvider(criteria, false);
+        //Location location = locationManager.getLastKnownLocation(provider);
+        //if (location != null) {
+          //  System.out.println("Provider " + provider + " has been selected.");
+            //onLocationChanged(location);
+        ///}
 
         myApp = (MyApplication) getApplication();
         dbAccess = new DbAccess(this);
@@ -89,7 +99,8 @@ public class ItemDetailActivity extends FragmentActivity {
         // added by ACM on 11/19/14
         ibMapView = (ImageButton) findViewById(R.id.ib_map);
         ibNewCategory = (ImageButton) findViewById(R.id.ib_new_cat);
-
+        longitudeField = (EditText) findViewById(R.id.long_line);
+        latituteField = (EditText) findViewById(R.id.lat_line);
         //removed by PTR 12/05/14 added listener to ivItemImg
 //        btnEditPicture = new FloatingActionButton.Builder(this)
 //                .withDrawable(getResources().getDrawable(R.drawable.ic_action_edit_w))
@@ -129,20 +140,38 @@ public class ItemDetailActivity extends FragmentActivity {
                     item.setRate(rbRate.getRating());
                     item.setNotes(etNotes.getText().toString());
                     item.setFileName(fileName);
+                    // added ACM 12/15/ to add latitude and longitude to database
+                    item.setLat((latituteField.getText()).toString());
+                    item.setLng(longitudeField.getText().toString());
+
                     dbAccess.insert(item);
                     if (isImgChanged == true){
                         saveImageToInternalStorage(((BitmapDrawable)ivItemImg.getDrawable()).getBitmap(), fileName);
                     }
+                    if (isLocChanged == true)
+                        item.setAddress(etAddress.getText().toString());
+
                 }else {
                     //If it's an old item, update it in the db
                     item.setName(etName.getText().toString());
                     item.setCategory(spinCategory.getSelectedItem().toString());
-                    item.setAddress(etAddress.getText().toString());
+                    //   item.setAddress(etAddress.getText().toString());
                     item.setRate(rbRate.getRating());
                     item.setNotes(etNotes.getText().toString());
+                    // added ACM 12/15/ to add latitude and longitude to database
+                    item.setLat(latituteField.getText().toString());
+                    item.setLng(longitudeField.getText().toString());
+
                     dbAccess.update(item);
                     if (isImgChanged == true){
                         saveImageToInternalStorage(((BitmapDrawable)ivItemImg.getDrawable()).getBitmap(), item.getFileName());
+                    }
+                    if (isLocChanged == true)
+                        item.setAddress(etAddress.getText().toString());
+                    if (latituteField.getText() != null && longitudeField.getText() != null)
+                    {
+                        item.setLat((latituteField.getText().toString()));
+                        item.setLng((longitudeField.getText().toString()));
                     }
                 }
                 finish();
@@ -160,22 +189,24 @@ public class ItemDetailActivity extends FragmentActivity {
                 etAddress.setText(item.getAddress());
                 rbRate.setRating(item.getRate());
                 etNotes.setText(item.getNotes());
-
+                // added ACM 12/15/ to add latitude and longitude to database
+                latituteField.setText(String.valueOf(item.getLat()));
+                longitudeField.setText(String.valueOf(item.getLng()));
             }
         });
         // In EditMode user can click image to add or edit the image
         ivItemImg.setOnClickListener(new View.OnClickListener(){
-             @Override
-             public void onClick(View v){
-                 // if only allows allows Image Capture on click when in edit mode
-                 if(isEditMode){
-                     Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                     startActivityForResult(intent, 0);
-                 }
-             }
-         }
+                                         @Override
+                                         public void onClick(View v){
+                                             // if only allows allows Image Capture on click when in edit mode
+                                             if(isEditMode){
+                                                 Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                                 startActivityForResult(intent, 0);
+                                             }
+                                         }
+                                     }
         );
-          //removed by PTR 12/05/14 added listener to ivItemImg
+        //removed by PTR 12/05/14 added listener to ivItemImg
 //        btnEditPicture.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -187,9 +218,11 @@ public class ItemDetailActivity extends FragmentActivity {
         ibMapView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ItemDetailActivity.this, MapDisplayCategoryActivity.class);
-                startActivity(intent);
-            }
+                if(isEditMode){
+
+                    Intent intent = new Intent(ItemDetailActivity.this, MapGetLocationActivity.class);
+                    startActivityForResult(intent, 1);
+                }}
         });
 
         ibNewCategory.setOnClickListener(new View.OnClickListener() {
@@ -304,34 +337,35 @@ public class ItemDetailActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
         if(data != null){
-            Bundle bundle = data.getExtras();
-            if (bundle != null){
-                Bitmap img = (Bitmap) bundle.get("data");
-                ivItemImg.setImageBitmap(img);
-                isImgChanged = true;
+            switch (requestCode){
+
+                case(1):{
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        etAddress.setText((CharSequence) bundle.get("address"));//
+                        latituteField.setText(bundle.get("lat").toString());
+                        longitudeField.setText(bundle.get("lng").toString());
+                        isLocChanged = true;
+
+                    }
+                    break;
+                }
+                default:
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null){
+
+                        Bitmap img = (Bitmap) bundle.get("data");
+                        ivItemImg.setImageBitmap(img);
+                        isImgChanged = true;
+                        break;
+                    }
             }
         }
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_item_detail, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
-
 }
+

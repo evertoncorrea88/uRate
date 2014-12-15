@@ -19,14 +19,18 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapDisplayCategoryActivity extends FragmentActivity {
+//import com.google.android.gms.maps.model.MarkerOptions;
+
+public class MapDisplayCategoryActivity extends FragmentActivity{
 
     private static final String TAG = "MapActivity";
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -41,6 +45,20 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_display_category);
         setUpMapIfNeeded();
+    }
+
+
+
+    public void onMapReady(GoogleMap map) {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(41.889, -87.622), 16));
+
+        // You can customize the marker image using images bundled with
+        // your app, or dynamically generated bitmaps.
+        map.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_urate))
+                .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
+                .position(new LatLng(41.889, -87.622)));
     }
 
     @Override
@@ -61,11 +79,22 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mMap.clear();
                 List<Item> itemlist = myApp.listItem.get(myApp.listGroup.get(position));
-                for (Item i : itemlist) {
-                    double lat = i.getLat();
-                    double lng = i.getLng();
+                for (final Item i : itemlist) {
+                    String lat = i.getLat();
+                    String lng = i.getLng();
                     String name = i.getName();
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(name));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng))).title(name));
+                    mMap.setOnMarkerClickListener( new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+
+                            Toast.makeText(getApplicationContext(), i.getName().toString() +  i.getCategory(), Toast.LENGTH_LONG).show();
+                           // Intent intent = new Intent(Map.this,OtherActivity.class);
+                            //startActivity(intent);
+
+                            return false;
+                        }
+                    });
                 }
             }
             @Override
@@ -80,6 +109,7 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
 
     private void setUpMap() {
         gps = new GPS(MapDisplayCategoryActivity.this);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
@@ -92,14 +122,13 @@ public class MapDisplayCategoryActivity extends FragmentActivity {
             float zoomLevel = 15.0f;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
             mMap.animateCamera(cameraUpdate);
-            //MarkerOptions marker = new MarkerOptions();
-            //marker.position(latLng);
 
             getAddressFromLocation(gps.getLocation(), this, new GeocoderHandler());
             // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " +
                     longitude, Toast.LENGTH_LONG).show();
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+
 
         }else{
             // can't get location

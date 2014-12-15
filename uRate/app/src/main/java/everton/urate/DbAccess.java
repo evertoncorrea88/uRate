@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +65,8 @@ public class DbAccess {
             item.setName(cursor.getString(1));
             item.setCategory(cursor.getString(2));
             item.setAddress(cursor.getString(3));
-            item.setLat(cursor.getDouble(4));
-            item.setLng(cursor.getDouble(5));
+            item.setLat(cursor.getString(4));
+            item.setLng(cursor.getString(5));
             item.setRate(cursor.getFloat(6));
             item.setNotes(cursor.getString(7));
             item.setFileName(cursor.getString(8));

@@ -1,26 +1,14 @@
 package everton.urate;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +25,7 @@ public class ListFragment extends Fragment {
 
         myApp = (MyApplication) getActivity().getApplication();
         dbAccess = new DbAccess(getActivity());
-//        createDummy();
+     //  createDummy();
     }
 
     @Override
@@ -84,16 +72,16 @@ public class ListFragment extends Fragment {
         });
     }
 
-    private void buildLists(){
+    private void buildLists() {
         myApp.listGroup = new ArrayList<String>();
         myApp.listItem = new HashMap<String, List<Item>>();
 
         List<Item> auxListItem = dbAccess.retrieveItems();
-        for (int i = 0; i < auxListItem.size(); i++){
+        for (int i = 0; i < auxListItem.size(); i++) {
             Item item = auxListItem.get(i);
-            if (myApp.listGroup.contains(item.getCategory())){
+            if (myApp.listGroup.contains(item.getCategory())) {
                 myApp.listItem.get(item.getCategory()).add(item);
-            }else {
+            } else {
                 myApp.listGroup.add(item.getCategory());
                 List<Item> newList = new ArrayList<Item>();
                 newList.add(item);
@@ -102,80 +90,86 @@ public class ListFragment extends Fragment {
         }
     }
 
-    private void createDummy(){
+    private void createDummy() {
+       // TODO
+        // We need to create a dummy node at first otherwise we cannot point any new entries to the DB
+        // So whatever works for a simple head, Might be able to remove it after first insertion into
+        //
+
         Item item = new Item();
         String fileName;
 
-        item.setNotes("Test");
+        item.setNotes("");
         item.setRate(2.5f);
-        item.setAddress("Fulton Street");
+        item.setAddress("");
 
-        item.setCategory("FastFood");
-        item.setName("Subway");
+        item.setCategory("DUMMY Node");
+        item.setName("Welcome to uRate");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.710162);
-        item.setLng(-74.005500);
+        item.setLat("40.710162");
+        item.setLng("-74.005500");
         dbAccess.insert(item);
-        item.setName("McDonald's");
+         item.setName("McDonald's");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.708426);
-        item.setLng(-74.004803);
+        item.setLat("40.708426");
+        item.setLng("-74.004803");
         dbAccess.insert(item);
         item.setName("Wendy's");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.710191);
-        item.setLng(-74.007974);
+        item.setLat("40.710191");
+        item.setLng("-74.007974");
         dbAccess.insert(item);
         item.setName("BURGER KING");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.709605);
-        item.setLng(-74.006944);
+        item.setLat("40.709605");
+        item.setLng("-74.006944");
         dbAccess.insert(item);
 
         item.setCategory("Pizzeria");
         item.setName("Papa John's Pizza");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.709186);
-        item.setLng(-74.008933);
+        item.setLat("40.709186");
+        item.setLng("-74.008933");
         dbAccess.insert(item);
         item.setName("Majestic Pizza");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.709414);
-        item.setLng(-74.009534);
+        item.setLat("40.709414");
+        item.setLng("-74.009534");
         dbAccess.insert(item);
         item.setName("Pronto Pizza");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.710845);
-        item.setLng(-74.012281);
+        item.setLat("40.710845");
+        item.setLng("-74.012281");
         dbAccess.insert(item);
 
         item.setCategory("Coffee Shop");
         item.setName("Starbucks");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.711627);
-        item.setLng(-74.0066);
+        item.setLat("40.711627");
+        item.setLng("-74.0066");
         dbAccess.insert(item);
         item.setName("Dunkin' Donuts");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.711091);
-        item.setLng(-74.006463);
+        item.setLat("40.711091");
+        item.setLng("-74.006463");
         dbAccess.insert(item);
         item.setName("Pearl Cafe");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.708157);
-        item.setLng(-74.003956);
+        item.setLat("40.708157");
+        item.setLng("-74.003956");
         dbAccess.insert(item);
 
         item.setCategory("Mexican Food");
         item.setName("Chipotle Mexican Grill");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.709812);
-        item.setLng(-74.006445);
+        item.setLat("40.709812");
+        item.setLng("-74.006445");
         dbAccess.insert(item);
         item.setName("Toloache Taqueria");
         item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat(40.707604);
-        item.setLng(-74.007463);
+        item.setLat("40.707604");
+        item.setLng("-74.007463");
         dbAccess.insert(item);
+
     }
 }

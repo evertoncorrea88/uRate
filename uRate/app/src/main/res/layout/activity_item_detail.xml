@@ -111,7 +111,8 @@
                 android:baselineAlignBottom="true"/>
             <EditText
                 android:id="@+id/et_address"
-                android:inputType="text"
+                android:inputType="textPostalAddress"
+                android:autoLink="map"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -194,6 +195,24 @@
                 android:drawableLeft="@drawable/ic_action_edit"
                 android:drawableStart="@drawable/ic_action_edit"
                 style="?android:attr/borderlessButtonStyle"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lat_line"
+                android:layout_below="@+id/btn_cancel"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:visibility="invisible" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/long_line"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/btn_cancel"
+                android:layout_toStartOf="@+id/btn_cancel"
+                android:visibility="invisible" />
         </RelativeLayout>
 
     </RelativeLayout>
