@@ -37,12 +37,13 @@ public class ItemDetailActivity extends FragmentActivity {
     private Item item;
     private Item itemCopy;
     private boolean isEditMode;
+    private boolean isNewItem; // added ptr 12/15
     private boolean isImgChanged = false;
     private boolean isLocChanged = false;
     private Button btnSave;
     private Button btnEdit;
     private Button btnCancel;
-    //    private FloatingActionButton btnEditPicture;
+    private Button btnNewCancel; // Added pTR 12/15 Cancel btn for new items
     private EditText etName;
     private Spinner spinCategory;
     private EditText etAddress;
@@ -53,12 +54,11 @@ public class ItemDetailActivity extends FragmentActivity {
 
     // added by ACM on 11/19/14
     private ImageButton ibMapView;
-    //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ImageButton ibNewCategory;
     private EditText latituteField;
     private EditText longitudeField;
-    private LocationManager locationManager;
-    private String provider;
+//    private LocationManager locationManager;
+//    private String provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,8 @@ public class ItemDetailActivity extends FragmentActivity {
         btnSave = (Button) findViewById(R.id.btn_save);
         btnEdit = (Button) findViewById(R.id.btn_edit);
         btnCancel = (Button) findViewById(R.id.btn_cancel);
+        //Added PTR 12/15 Cancel for new items
+        btnNewCancel = (Button) findViewById(R.id.btn_new_cancel);
         etName = (EditText) findViewById(R.id.et_name_item);
         spinCategory =  (Spinner) findViewById(R.id.spin_category);
         etAddress = (EditText) findViewById(R.id.et_address);
@@ -115,14 +117,16 @@ public class ItemDetailActivity extends FragmentActivity {
 
         Intent intent = getIntent();
         isEditMode = intent.getExtras().getBoolean("isEditMode");
-        loadItem(isEditMode, intent);
-        executionMode(isEditMode);
+        isNewItem = intent.getExtras().getBoolean("isNewItem");
+        loadItem(isNewItem, intent);
+        executionMode(isEditMode,isNewItem);
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isEditMode = true;
-                executionMode(isEditMode);
+                isNewItem = false;
+                executionMode(isEditMode, isNewItem);
                 itemCopy = item;
             }
         });
@@ -182,7 +186,8 @@ public class ItemDetailActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 isEditMode = false;
-                executionMode(isEditMode);
+                isNewItem = false;
+                executionMode(isEditMode,isNewItem);
                 item = itemCopy;
                 etName.setText(item.getName());
                 spinCategory.setSelection(myApp.listGroup.indexOf(item.getCategory()));
@@ -194,17 +199,26 @@ public class ItemDetailActivity extends FragmentActivity {
                 longitudeField.setText(String.valueOf(item.getLng()));
             }
         });
+        // Added PTR 12/15 Cancel button for new items
+        btnNewCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isEditMode = false;
+                isNewItem = false;
+                finish();
+            }
+        });
         // In EditMode user can click image to add or edit the image
         ivItemImg.setOnClickListener(new View.OnClickListener(){
-                                         @Override
-                                         public void onClick(View v){
-                                             // if only allows allows Image Capture on click when in edit mode
-                                             if(isEditMode){
-                                                 Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                                                 startActivityForResult(intent, 0);
-                                             }
-                                         }
-                                     }
+                 @Override
+                 public void onClick(View v){
+                     // if only allows allows Image Capture on click when in edit mode
+                     if(isEditMode){
+                         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                         startActivityForResult(intent, 0);
+                     }
+                 }
+             }
         );
         //removed by PTR 12/05/14 added listener to ivItemImg
 //        btnEditPicture.setOnClickListener(new View.OnClickListener() {
@@ -268,7 +282,6 @@ public class ItemDetailActivity extends FragmentActivity {
             int groupPosition = intent.getExtras().getInt("groupPosition");
             int childPosition = intent.getExtras().getInt("childPosition");
             item = myApp.listItem.get(myApp.listGroup.get(groupPosition)).get(childPosition);
-
             etName.setText(item.getName());
             spinCategory.setSelection(groupPosition);
             etAddress.setText(item.getAddress());
@@ -283,12 +296,14 @@ public class ItemDetailActivity extends FragmentActivity {
         }
     }
     // method determines what is displayed based on isEditMode
-    private void executionMode(boolean isEditMode){
+    private void executionMode(boolean isEditMode, boolean isNewItem){
         if (isEditMode){
             btnEdit.setVisibility(View.GONE);
             btnSave.setVisibility(View.VISIBLE);
-            btnCancel.setVisibility(View.VISIBLE);
-//            btnEditPicture.setVisibility(View.GONE);
+            if(isNewItem){
+                btnNewCancel.setVisibility(View.VISIBLE);}
+            else{
+                btnCancel.setVisibility(View.VISIBLE);}
             ivEditImg.setVisibility(View.VISIBLE);
             etName.setEnabled(true);
             spinCategory.setEnabled(true);
@@ -299,7 +314,7 @@ public class ItemDetailActivity extends FragmentActivity {
             btnEdit.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
-//            btnEditPicture.setVisibility(View.GONE);
+            btnNewCancel.setVisibility(View.GONE);
             etName.setEnabled(false);
             spinCategory.setEnabled(false);
             etAddress.setEnabled(false);

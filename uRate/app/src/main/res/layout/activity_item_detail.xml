@@ -183,6 +183,18 @@
                 android:drawableStart="@drawable/ic_action_cancel"
                 style="?android:attr/borderlessButtonStyle"
                 android:paddingRight="15dp"/>
+            <Button
+                android:id="@+id/btn_new_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/btn_save"
+                android:layout_toStartOf="@+id/btn_save"
+                android:text="@string/button_cancel"
+                android:drawableLeft="@drawable/ic_action_cancel"
+                android:drawableStart="@drawable/ic_action_cancel"
+                style="?android:attr/borderlessButtonStyle"
+                android:paddingRight="15dp"/>
 
             <Button
                 android:id="@+id/btn_edit"

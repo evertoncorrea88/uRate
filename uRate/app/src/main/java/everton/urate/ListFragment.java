@@ -67,6 +67,7 @@ public class ListFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent("everton.urate.ITEM_DETAIL");
                 intent.putExtra("isEditMode", true);
+                intent.putExtra("isNewItem", true);
                 startActivity(intent);
             }
         });
