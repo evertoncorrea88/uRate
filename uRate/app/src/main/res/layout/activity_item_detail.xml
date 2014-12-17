@@ -7,8 +7,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="everton.urate.ItemDetailActivity">
+        android:layout_height="wrap_content"
+        tools:context="everton.urate.ItemDetailActivity"
+        android:layout_margin="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             <ImageView
                 android:id="@+id/iv_item_img"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -28,8 +29,9 @@
                 android:id="@+id/iv_edit_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_action_edit_w"
                 android:visibility="invisible"/>
         </RelativeLayout>
@@ -47,7 +49,7 @@
         <LinearLayout
             android:id="@+id/name_line"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_below="@+id/rb_rate"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -69,7 +71,7 @@
         <LinearLayout
             android:id="@+id/category_line"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_below="@+id/name_line"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -98,7 +100,7 @@
         <LinearLayout
             android:id="@+id/address_line"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_below="@+id/category_line"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -144,7 +146,6 @@
             <EditText
                 android:id="@+id/et_notes"
                 android:inputType="textMultiLine"
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -155,15 +156,13 @@
             android:id="@+id/rl_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/notes_line"
-            android:padding="15dp">
+            android:layout_below="@id/notes_line">
 
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:text="@string/button_save"
@@ -175,32 +174,32 @@
                 android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/btn_save"
                 android:layout_toStartOf="@+id/btn_save"
                 android:text="@string/button_cancel"
                 android:drawableLeft="@drawable/ic_action_cancel"
                 android:drawableStart="@drawable/ic_action_cancel"
                 style="?android:attr/borderlessButtonStyle"
-                android:paddingRight="15dp"/>
+                android:layout_marginRight="10dp"/>
             <Button
                 android:id="@+id/btn_new_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/btn_save"
                 android:layout_toStartOf="@+id/btn_save"
                 android:text="@string/button_cancel"
                 android:drawableLeft="@drawable/ic_action_cancel"
                 android:drawableStart="@drawable/ic_action_cancel"
                 style="?android:attr/borderlessButtonStyle"
-                android:paddingRight="15dp"/>
+                android:layout_marginRight="10dp"/>
 
             <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:text="@string/button_edit"
@@ -209,23 +208,21 @@
                 style="?android:attr/borderlessButtonStyle"/>
 
             <EditText
+                android:id="@+id/lat_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lat_line"
-                android:layout_below="@+id/btn_cancel"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:visibility="invisible" />
 
             <EditText
+                android:id="@+id/long_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/long_line"
                 android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/btn_cancel"
-                android:layout_toStartOf="@+id/btn_cancel"
                 android:visibility="invisible" />
+
         </RelativeLayout>
 
     </RelativeLayout>
+
 </ScrollView>

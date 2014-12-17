@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         final ActionBar actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);

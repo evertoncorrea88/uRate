@@ -65,7 +65,7 @@ public class ItemDetailActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);
 
         setContentView(R.layout.activity_item_detail);
 
@@ -210,16 +210,15 @@ public class ItemDetailActivity extends FragmentActivity {
         });
         // In EditMode user can click image to add or edit the image
         ivItemImg.setOnClickListener(new View.OnClickListener(){
-                 @Override
-                 public void onClick(View v){
-                     // if only allows allows Image Capture on click when in edit mode
-                     if(isEditMode){
-                         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                         startActivityForResult(intent, 0);
-                     }
+             @Override
+             public void onClick(View v){
+                 // if only allows allows Image Capture on click when in edit mode
+                 if(isEditMode){
+                     Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                     startActivityForResult(intent, 0);
                  }
              }
-        );
+        });
         //removed by PTR 12/05/14 added listener to ivItemImg
 //        btnEditPicture.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -233,45 +232,40 @@ public class ItemDetailActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if(isEditMode){
-
                     Intent intent = new Intent(ItemDetailActivity.this, MapGetLocationActivity.class);
                     startActivityForResult(intent, 1);
-                }}
+                }
+            }
         });
 
         ibNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
-                builder.setTitle("Crete new category");
-// Set up the input
-                final EditText input = new EditText(ItemDetailActivity.this);
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                builder.setView(input);
-
-// Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newCategory = input.getText().toString();
-
-                        myApp.listGroup.add(newCategory);
-                        ArrayAdapter<String> adapter =  new ArrayAdapter(ItemDetailActivity.this, android.R.layout.simple_spinner_item, myApp.listGroup);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinCategory.setAdapter(adapter);
-
-                        spinCategory.setSelection(myApp.listGroup.indexOf(newCategory));
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
+                if(isEditMode){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                    builder.setTitle("Crete new category");
+                    final EditText input = new EditText(ItemDetailActivity.this);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String newCategory = input.getText().toString();
+                            myApp.listGroup.add(newCategory);
+                            ArrayAdapter<String> adapter =  new ArrayAdapter(ItemDetailActivity.this, android.R.layout.simple_spinner_item, myApp.listGroup);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinCategory.setAdapter(adapter);
+                            spinCategory.setSelection(myApp.listGroup.indexOf(newCategory));
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
             }
         });
     }
@@ -305,6 +299,8 @@ public class ItemDetailActivity extends FragmentActivity {
             else{
                 btnCancel.setVisibility(View.VISIBLE);}
             ivEditImg.setVisibility(View.VISIBLE);
+            ibNewCategory.setVisibility(View.VISIBLE);
+            ibMapView.setVisibility(View.VISIBLE);
             etName.setEnabled(true);
             spinCategory.setEnabled(true);
             etAddress.setEnabled(true);
@@ -315,6 +311,9 @@ public class ItemDetailActivity extends FragmentActivity {
             btnSave.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
             btnNewCancel.setVisibility(View.GONE);
+            ivEditImg.setVisibility(View.GONE);
+            ibNewCategory.setVisibility(View.GONE);
+            ibMapView.setVisibility(View.GONE);
             etName.setEnabled(false);
             spinCategory.setEnabled(false);
             etAddress.setEnabled(false);
