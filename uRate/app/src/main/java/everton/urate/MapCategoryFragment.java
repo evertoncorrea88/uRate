@@ -2,6 +2,7 @@ package everton.urate;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -70,13 +72,15 @@ public class MapCategoryFragment extends Fragment {
 
         spinMapCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                 map.clear();
                 List<Item> itemList = myApp.listItem.get(myApp.listGroup.get(position));
                 for (Item i : itemList) {
                     String lat = i.getLat();
                     String lng = i.getLng();
                     String name = i.getName();
+                    final long itemId = i.getId();
+                    float zoomLevel = 15.0f;
 
                     // added acm 12/17
                     // needs a try catch block or will crash, we need throw an exception for users
@@ -84,12 +88,25 @@ public class MapCategoryFragment extends Fragment {
                     // lat and long values are going to be blank.
 
                     try {
-                        map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)))
-                                .title(name));
+                        MarkerOptions newMarker = new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)))
+                                .title(name);
+                        map.addMarker(newMarker);
+                        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+                                    Intent intent = new Intent("everton.urate.ITEM_DETAIL");
+                                    intent.putExtra("isEditMode", false);
+                                    intent.putExtra("groupPosition", position);
+                                    intent.putExtra("childPosition", itemId);
+                                    startActivity(intent);
+                                return true;
+                            }
+                        });
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
-
+                    //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
+                   // map.animateCamera(cameraUpdate);
 
                 }
             }

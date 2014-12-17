@@ -18,7 +18,6 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -129,7 +128,7 @@ public class MapGetLocationActivity extends FragmentActivity {
             //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " +
             //  longitude, Toast.LENGTH_LONG).show();
             final MarkerOptions mOptions = (new MarkerOptions().position(latLng).title("Tap and hold marker to move it").draggable(true));
-            mOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_urate));
+
             final LatLng markerPosition = mOptions.getPosition();
             mMap.addMarker(mOptions).showInfoWindow();
 

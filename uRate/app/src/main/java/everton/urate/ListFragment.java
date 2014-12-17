@@ -25,7 +25,7 @@ public class ListFragment extends Fragment {
 
         myApp = (MyApplication) getActivity().getApplication();
         dbAccess = new DbAccess(getActivity());
-//       createDummy
+      createDummy();
     }
 
     @Override
@@ -93,6 +93,7 @@ public class ListFragment extends Fragment {
 
     private void createDummy() {
        // TODO
+
         // We need to create a dummy node at first otherwise we cannot point any new entries to the DB
         // So whatever works for a simple head, Might be able to remove it after first insertion into
         //
