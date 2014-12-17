@@ -1,6 +1,7 @@
 package everton.urate;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -351,11 +354,8 @@ public class ItemDetailActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if(data != null){
             switch (requestCode){
-
                 case(1):{
                     Bundle bundle = data.getExtras();
                     if (bundle != null) {
@@ -363,7 +363,6 @@ public class ItemDetailActivity extends FragmentActivity {
                         latituteField.setText(bundle.get("lat").toString());
                         longitudeField.setText(bundle.get("lng").toString());
                         isLocChanged = true;
-
                     }
                     break;
                 }
@@ -378,8 +377,47 @@ public class ItemDetailActivity extends FragmentActivity {
                     }
             }
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_item_detail, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = menuItem.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.menu_delete_item) {
+            if (item != null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                builder.setTitle("Alert!!");
+                builder.setMessage("Are you sure to delete record");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dbAccess.delete(item);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(menuItem);
     }
 }
 

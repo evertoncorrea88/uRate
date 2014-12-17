@@ -5,8 +5,8 @@
     tools:context="everton.urate.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/menu_delete_category"
+        android:title="@string/menu_delete_category"
         android:orderInCategory="100"
         app:showAsAction="never" />
 
