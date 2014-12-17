@@ -79,8 +79,10 @@ public class MapCategoryFragment extends Fragment {
                     String lat = i.getLat();
                     String lng = i.getLng();
                     String name = i.getName();
+
+                    final LatLng latLng = new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));
                     final long itemId = i.getId();
-                    float zoomLevel = 15.0f;
+                    final float zoomLevel = 15.0f;
 
                     // added acm 12/17
                     // needs a try catch block or will crash, we need throw an exception for users
@@ -101,12 +103,16 @@ public class MapCategoryFragment extends Fragment {
                                     startActivity(intent);
                                 return true;
                             }
+
                         });
+                        map.setMyLocationEnabled(true);
+
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
+                        map.animateCamera(cameraUpdate);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
-                    //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
-                   // map.animateCamera(cameraUpdate);
+
 
                 }
             }
