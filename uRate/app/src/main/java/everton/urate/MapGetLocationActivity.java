@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,81 +37,18 @@ public class MapGetLocationActivity extends FragmentActivity {
     private Fragment fragment; // when will this get used.
     // GPS class
     GPS gps;
-   // private UiSettings mUiSettings;
-   // private CheckBox checkbox;
+    // private UiSettings mUiSettings;
+    // private CheckBox checkbox;
     //EditText mapSearchBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_get_location);
-        Log.i("YOURAPP", "Testing1");
-        //checkbox = (CheckBox) findViewById(R.id.mylocationbutton_toggle);
-        // mapSearchBox = (EditText) findViewById(R.id.mapSearchBox);
-        //mapSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-        //  public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        //    if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-        //          actionId == EditorInfo.IME_ACTION_DONE ||
-        //        actionId == EditorInfo.IME_ACTION_GO ||
-        //      event.getAction() == KeyEvent.ACTION_DOWN &&
-        //            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-        // Log.i("YOURAPP", "Testing2");
 
-        // hide virtual keyboard
-        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(mapSearchBox.getWindowToken(), 0);
-        //Log.i("YOURAPP", "Testing3");
-
-        // new SearchClicked(mapSearchBox.getText().toString()).execute();
-        //mapSearchBox.setText("", TextView.BufferType.EDITABLE);
-        //return true;
-        //}
-        //  return false;
-        // }
-
-
-        //  });
 
         setUpMapIfNeeded();
     }
-   /* }
-    private class SearchClicked extends AsyncTask<Void, Void, Boolean> {
-        private String toSearch;
-        private Address address;
 
-        public SearchClicked(String toSearch) {
-            this.toSearch = toSearch;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            Log.i("YOURAPP", "Testing4");
-
-            try {
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.US);
-                List<Address> results = geocoder.getFromLocationName(toSearch, 1);
-
-                if (results.size() == 0) {
-                    return false;
-                }
-                address = results.get(0);
-
-                // Now do something with this GeoPoint:
-
-                // you should do something with lat/lng. have you checked if code runs here?
-                Log.i("YOURAPP", "address found: LAT is " + address.getLatitude()+", LNG is " + +address.getLongitude());
-
-
-                // USING Log.i("TAG", "some string") is GREAT to "see" what your code is doin while running
-
-// This geocoder user to say geopoint but  flagged it
-                //   Geocoder p = new Geocoder((address.getLatitude()),address.getLongitude());
-            } catch (Exception e) {
-                Log.e("", "Something went wrong: ", e);
-                return false;
-            }
-            return true;
-        }
-    }*/
     /**
      * Returns whether the checkbox with the given id is checked.
      */
@@ -155,8 +93,7 @@ public class MapGetLocationActivity extends FragmentActivity {
             }
         }
     }
-
-   /**
+    /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p>
@@ -165,14 +102,22 @@ public class MapGetLocationActivity extends FragmentActivity {
     private void setUpMap() {
         gps = new GPS(MapGetLocationActivity.this);
 
+        // acm 12/17
+        final String TAG_LAT = "LAT";
+        final String TAG_LONG = "LONGITUDE";
+
         // check if GPS enabled
         if(gps.canGetLocation()){
+            // to resolve
+            //     java.lang.IllegalStateException: MyLocation layer not enabled
+
+            mMap.setMyLocationEnabled(true);
 
             final double latitude = gps.getLatitude();
             final double longitude = gps.getLongitude();
             //Location location = new Location(gps.getLocation());
 
-            LatLng latLng = new LatLng(latitude, longitude);
+            final LatLng latLng = new LatLng(latitude, longitude);
             float zoomLevel = 15.0f;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
             mMap.animateCamera(cameraUpdate);
@@ -181,21 +126,101 @@ public class MapGetLocationActivity extends FragmentActivity {
 
             getAddressFromLocation(gps.getLocation(), this, new GeocoderHandler());
             // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " +
-                    longitude, Toast.LENGTH_LONG).show();
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Tap the marker to select location").draggable(true)).showInfoWindow();
+            //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " +
+            //  longitude, Toast.LENGTH_LONG).show();
+            final MarkerOptions mOptions = (new MarkerOptions().position(latLng).title("Tap and hold marker to move it").draggable(true));
+            mOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_urate));
+            final LatLng markerPosition = mOptions.getPosition();
+            mMap.addMarker(mOptions).showInfoWindow();
+
+            // attempt to drag and save
+            mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+
+                @Override
+                public void onMarkerDragStart(Marker marker) {
+                    // TODO Auto-generated method stub
+                    // Here your code
+                    Toast.makeText(MapGetLocationActivity.this, "Dragging Start",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onMarkerDragEnd(Marker marker) {
+
+                    LatLng position = marker.getPosition(); //
+                    Toast.makeText(
+                            MapGetLocationActivity.this,
+                            "Lat " + position.latitude + " "
+                                    + "Long " + position.longitude,
+                            Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onMarkerDrag(Marker marker) {
+                    // TODO Auto-generated method stub
+                    // Toast.makeText(MainActivity.this, "Dragging",
+                    // Toast.LENGTH_SHORT).show();
+                    System.out.println("Draagging");
+                }
+            });
+
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Toast.makeText(MapGetLocationActivity.this, addressresult + latitude + longitude, Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(MapGetLocationActivity.this,ItemDetailActivity.class);
-                    intent.putExtra("address",addressresult );
-                    intent.putExtra("lat", latitude);
-                    intent.putExtra("lng",longitude);
-                    setResult(RESULT_OK, intent);
+
+                    // Creating a marker
+                    MarkerOptions markerOptions = new MarkerOptions();
+
+                    // Setting the position for the marker
+                    LatLng position = marker.getPosition(); //
+
+
+                    markerOptions.position(position);
+
+                    // Placing a marker on the touched position
+                    double lat = position.latitude;
+                    double longitude = position.longitude;
+                    String LAT = String.valueOf(lat);
+                    String LONGITUDE = String.valueOf(longitude);
+                    Intent in = new Intent(getApplicationContext(),
+                            ItemDetailActivity.class);
+
+                    String result = null;
+
+                    // Sending lat/long to next activity
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    try {
+                       List <Address> list = null;
+                        list = geocoder.getFromLocation(Double.parseDouble(LAT),Double.parseDouble(LONGITUDE),1);
+                        if (list != null && list.size() > 0) {
+                            Address address = list.get(0);
+                            // sending back first address line and locality
+                            result = address.getAddressLine(0) + ", " + address.getLocality();
+
+                    }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Impossible to connect to Geocoder", e);
+                    }
+
+
+
+                    in.putExtra("address",result );
+                    in.putExtra(TAG_LAT, LAT);
+                    in.putExtra(TAG_LONG, LONGITUDE);
+                    // Toast.makeText(MapGetLocationActivity.this,"Passing Data: Lat" +
+                    /// LAT + "/nAnd Long: " + LONGITUDE, Toast.LENGTH_LONG).show();
+
+                    setResult(RESULT_OK,in);
                     finish();
-                 return true;
+
+
+                    // }   ^^ (marker.equals(mMap))
+
+
+                    return true;
                 }
             });
 
@@ -240,7 +265,7 @@ public class MapGetLocationActivity extends FragmentActivity {
         };
         thread.start();
     }
-String addressresult;
+    String addressresult;
     private class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
@@ -254,7 +279,7 @@ String addressresult;
                     addressresult = null;
             }
             // replace by what you need to do
-            Toast.makeText(getApplicationContext(), addressresult, Toast.LENGTH_LONG);
+            //  Toast.makeText(getApplicationContext(), addressresult, Toast.LENGTH_LONG);
         }
 
 

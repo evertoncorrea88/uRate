@@ -25,7 +25,7 @@ public class ListFragment extends Fragment {
 
         myApp = (MyApplication) getActivity().getApplication();
         dbAccess = new DbAccess(getActivity());
-//       createDummy();
+//       createDummy
     }
 
     @Override

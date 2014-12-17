@@ -78,7 +78,19 @@ public class MapCategoryFragment extends Fragment {
                     String lng = i.getLng();
                     String name = i.getName();
 
-                    map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng))).title(name));
+                    // added acm 12/17
+                    // needs a try catch block or will crash, we need throw an exception for users
+                    // who have not added an address from the map and just wrote one by hand, which the
+                    // lat and long values are going to be blank.
+
+                    try {
+                        map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)))
+                                .title(name));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
             }
             @Override

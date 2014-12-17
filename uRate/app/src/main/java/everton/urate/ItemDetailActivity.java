@@ -1,7 +1,6 @@
 package everton.urate;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
@@ -26,9 +24,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 // added byc ACM 11/19/14
@@ -42,7 +43,7 @@ public class ItemDetailActivity extends FragmentActivity {
     private boolean isEditMode;
     private boolean isNewItem; // added ptr 12/15
     private boolean isImgChanged = false;
-    private boolean isLocChanged = false;
+    private boolean isLocChanged = false;//added acm 12/15
     private Button btnSave;
     private Button btnEdit;
     private Button btnCancel;
@@ -60,6 +61,8 @@ public class ItemDetailActivity extends FragmentActivity {
     private ImageButton ibNewCategory;
     private EditText latituteField;
     private EditText longitudeField;
+    final String TAG_LAT = "LAT";
+    final String TAG_LONG = "LONGITUDE";
 //    private LocationManager locationManager;
 //    private String provider;
 
@@ -168,18 +171,18 @@ public class ItemDetailActivity extends FragmentActivity {
                     // added ACM 12/15/ to add latitude and longitude to database
                     item.setLat(latituteField.getText().toString());
                     item.setLng(longitudeField.getText().toString());
-
-                    dbAccess.update(item);
-                    if (isImgChanged == true){
-                        saveImageToInternalStorage(((BitmapDrawable)ivItemImg.getDrawable()).getBitmap(), item.getFileName());
-                    }
-                    if (isLocChanged == true)
-                        item.setAddress(etAddress.getText().toString());
-                    if (latituteField.getText() != null && longitudeField.getText() != null)
+                    // if (isLocChanged == true)
+                    item.setAddress(etAddress.getText().toString());
+                     if (latituteField.getText() != null && longitudeField.getText() != null)
                     {
                         item.setLat((latituteField.getText().toString()));
                         item.setLng((longitudeField.getText().toString()));
                     }
+                    dbAccess.update(item);
+                    if (isImgChanged == true){
+                        saveImageToInternalStorage(((BitmapDrawable)ivItemImg.getDrawable()).getBitmap(), item.getFileName());
+                    }
+
                 }
                 finish();
             }
@@ -284,6 +287,11 @@ public class ItemDetailActivity extends FragmentActivity {
             etAddress.setText(item.getAddress());
             rbRate.setRating(item.getRate());
             etNotes.setText(item.getNotes());
+           // I think we need to load the lat and long here and place them into the "invisible text edit boxes."
+            // I hope they aren't clickable... I don't think so but does store values
+            latituteField.setText(item.getLat());
+            longitudeField.setText(item.getLng());
+
             Bitmap image = getThumbnail(item.getFileName());
             if (image != null){
                 ivItemImg.setImageBitmap(image);
@@ -350,7 +358,24 @@ public class ItemDetailActivity extends FragmentActivity {
         }
         return thumbnail;
     }
+    // method responsible for parsing a CSV
+    private String[] split(String str) {
+        String[] substrings = new String[2];
 
+        if (str == null) return null;
+
+        // Use StringTokenizer because it is faster than split.
+        StringTokenizer tokenizer = new StringTokenizer(str, ",");
+        // TextUtils.StringSplitter splitter = new TextUtils.SimpleStringSplitter(',');
+        //   splitter.setString(str);
+        int i = 0;
+        while (tokenizer.hasMoreElements()) {
+            substrings[i++] = (tokenizer.nextToken());
+            //  for (String s : splitter) {
+            //       substrings.add(s);
+        }
+        return substrings;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -359,11 +384,17 @@ public class ItemDetailActivity extends FragmentActivity {
                 case(1):{
                     Bundle bundle = data.getExtras();
                     if (bundle != null) {
+                        String[] strOfLatLng = new String[2];
+
                         etAddress.setText((CharSequence) bundle.get("address"));//
-                        latituteField.setText(bundle.get("lat").toString());
-                        longitudeField.setText(bundle.get("lng").toString());
+
+                        LatLng latLng = (LatLng) bundle.get("strOfLatLng");
+
+                        latituteField.setText(bundle.get(TAG_LAT).toString());
+                        longitudeField.setText(bundle.get(TAG_LONG).toString());
                         isLocChanged = true;
-                    }
+
+                        }
                     break;
                 }
                 default:
