@@ -25,7 +25,7 @@ public class ListFragment extends Fragment {
 
         myApp = (MyApplication) getActivity().getApplication();
         dbAccess = new DbAccess(getActivity());
-      createDummy();
+//        createDummy();
     }
 
     @Override
@@ -104,28 +104,28 @@ public class ListFragment extends Fragment {
         item.setNotes("");
         item.setRate(2.5f);
         item.setAddress("");
-
-        item.setCategory("DUMMY Node");
-        item.setName("Welcome to uRate");
-        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat("40.710162");
-        item.setLng("-74.005500");
-        dbAccess.insert(item);
-         item.setName("McDonald's");
-        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat("40.708426");
-        item.setLng("-74.004803");
-        dbAccess.insert(item);
-        item.setName("Wendy's");
-        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat("40.710191");
-        item.setLng("-74.007974");
-        dbAccess.insert(item);
-        item.setName("BURGER KING");
-        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
-        item.setLat("40.709605");
-        item.setLng("-74.006944");
-        dbAccess.insert(item);
+//
+//        item.setCategory("DUMMY Node");
+//        item.setName("Welcome to uRate");
+//        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
+//        item.setLat("40.710162");
+//        item.setLng("-74.005500");
+//        dbAccess.insert(item);
+//         item.setName("McDonald's");
+//        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
+//        item.setLat("40.708426");
+//        item.setLng("-74.004803");
+//        dbAccess.insert(item);
+//        item.setName("Wendy's");
+//        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
+//        item.setLat("40.710191");
+//        item.setLng("-74.007974");
+//        dbAccess.insert(item);
+//        item.setName("BURGER KING");
+//        item.setFileName(UUID.randomUUID().toString().replace("-", "_"));
+//        item.setLat("40.709605");
+//        item.setLng("-74.006944");
+//        dbAccess.insert(item);
 
         item.setCategory("Pizzeria");
         item.setName("Papa John's Pizza");
